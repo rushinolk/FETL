@@ -8,18 +8,15 @@
 
 Este projeto implementa um pipeline de ETL (Extração, Transformação e Carga) completo e automatizado. O pipeline orquestra a extração de dados de produtos de uma API REST pública (Fake Store API), processa e limpa esses dados utilizando a biblioteca Pandas, e consolida o resultado em uma tabela no Google BigQuery, pronta para análises de Business Intelligence.
 
-O projeto foi estruturado seguindo as melhores práticas de engenharia de software, com uma clara separação entre código-fonte, configurações e credenciais, garantindo um código limpo, modular e seguro.
-
 ---
 
 ## ✨ Principais Funcionalidades
 
-* **Extração Robusta de API:** Conexão com uma fonte de dados externa via REST API, com tratamento de erros de rede.
+* **Extração de API:** Conexão com uma fonte de dados externa via REST API, com tratamento de erros de rede.
 * **Transformação de Dados com Pandas:** Limpeza, seleção de colunas, e achatamento (flattening) de estruturas JSON aninhadas para um formato tabular.
 * **Engenharia de Features:** Criação de novas colunas para enriquecer o dataset (ex: `data_hora_carga`).
 * **Integração com Cloud Data Warehouse:** Carga dos dados transformados diretamente no Google BigQuery, demonstrando a integração com serviços de nuvem.
 * **Gerenciamento Seguro de Credenciais:** Utilização de variáveis de ambiente para gerenciar as chaves de acesso ao GCP, evitando a exposição de informações sensíveis no código.
-* **Código de Produção:** O projeto é estruturado em módulos `.py` (e não em notebooks), seguindo o padrão de mercado para código de automação.
 
 ---
 
@@ -29,9 +26,9 @@ O fluxo de dados segue o padrão ETL clássico:
 
 ```mermaid
 graph TD
-    A[Fake Store API] -->|1. Extração (requests)| B(Python Script - etl_pipeline.py);
-    B -->|2. Transformação (pandas)| C{DataFrame Limpo};
-    C -->|3. Carga (pandas-gbq)| D[(Google BigQuery)];
+    A[Fonte: Fake Store API] -->|Passo 1: Extração| B[Script Python em .py];
+    B -->|Passo 2: Transformação com Pandas| C{DataFrame Limpo e Estruturado};
+    C -->|Passo 3: Carga via pandas-gbq| D[(Destino: Google BigQuery)];
 ```
 
 ---
