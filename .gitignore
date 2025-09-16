@@ -9,4 +9,4 @@ __pycache__/
 venv/
 
 # Ignorar Rascunho exploratorio 
-.ipynb
+rascunho_exploratorio.ipynb
