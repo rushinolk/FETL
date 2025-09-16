@@ -1,0 +1,9 @@
+# Ignorar a pasta de credenciais
+credentials/
+
+# Ignorar arquivos de cache do Python
+__pycache__/
+*.pyc
+
+# Ignorar venv
+venv/
