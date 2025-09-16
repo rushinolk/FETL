@@ -72,8 +72,7 @@ def load_data(df_final,project_id, table_id):
         print("Nenhum dado foi encontrado para tratamento")
         return None
     
-    print('iniciando carregamento de dados')
-
+    print(f'iniciando carregamento de dados para {table_id}')
     try:
         df_final.to_gbq(
             destination_table=table_id,
@@ -81,7 +80,7 @@ def load_data(df_final,project_id, table_id):
             if_exists='replace'  
         )
     except Exception as e:
-        print(f'Falha na carga de dados: {e}')
+        print(f'Ocorreu um erro inesperado na carga. Detalhes: {e}')
 
 
 # Start ETL

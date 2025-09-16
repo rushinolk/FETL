@@ -19,8 +19,10 @@ if __name__ == "__main__":
     try:
         run_pipeline( project_id=config.GCP_PROJECT_ID, 
                     table_id=config.BIGQUERY_TABLE_ID  )
+        print("\n== Pipeline de ETL concluído com sucesso! ==")
     except Exception as e:
-        print(f"ERRO NA EXECUÇÃO DO PIPELINE!! {e}")
+        print(f"\nERRO CRÍTICO NO PIPELINE: Ocorreu um erro inesperado: {e}")
+        
 
     print("\n======================================================")
     print("==  Pipeline de ETL concluído!              ==")
