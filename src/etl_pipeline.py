@@ -57,7 +57,7 @@ def transform_data(raw_data):
         'rating_count': 'num avaliacao'
     })
 
-    # Coluna com data e hora da última carga
+    # Coluna com data e hora da última carga PADRÃO BIGQUERRY
     df_final['DataHoraCarga'] = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
     
 
