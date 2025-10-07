@@ -20,19 +20,6 @@ Este projeto implementa um pipeline de ETL (Extração, Transformação e Carga)
 
 ---
 
-## 🏗️ Arquitetura do Pipeline
-
-O fluxo de dados segue o padrão ETL clássico:
-
-```mermaid
-graph TD
-    A[Fonte: Fake Store API] -->|Passo 1: Extração| B[Script Python em .py];
-    B -->|Passo 2: Transformação com Pandas| C{DataFrame Limpo e Estruturado};
-    C -->|Passo 3: Carga via pandas-gbq| D[(Destino: Google BigQuery)];
-```
-
----
-
 ## 🚀 Tecnologias Utilizadas
 
 * **Linguagem:** Python 3.9+
