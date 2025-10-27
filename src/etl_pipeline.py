@@ -11,13 +11,10 @@ def extract_products_data():
     logging.info("Iniciando a extração dos dados")
     api_url = config.FAKESTORE_URL
     try:
-        # Faz requisição para pegar na API
+        # Requisição para pegar na API
         response = requests.get(api_url, timeout=10)
 
-        # Verifica se a porta foi aberta
-        response.raise_for_status()
-
-        # Guarda dados 
+        # Salvar dados brutos 
         raw_data = response.json()
         logging.info(f"Extração bem sucedida {len(raw_data)} produtos encontrados.")
         return raw_data
