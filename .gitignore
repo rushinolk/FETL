@@ -10,3 +10,8 @@ venv/
 
 # Ignorar Rascunho exploratorio 
 rascunho_exploratorio.ipynb
+
+
+pipeline.log
+
+*.env

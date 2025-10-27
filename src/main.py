@@ -2,28 +2,37 @@
 import os
 from .etl_pipeline import run_pipeline
 import config
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,  
+    format='%(asctime)s - %(levelname)s - %(message)s', # Formato da mensagem
+    datefmt='%Y-%m-%d %H:%M:%S', # Formato da data
+    handlers=[
+        logging.FileHandler("pipeline.log"), # Salva o log em um arquivo
+        logging.StreamHandler()            # Também exibe o log no console
+    ]
+)
 
 if __name__ == "__main__":
-
-    credential_path = "credentials/gcp_service_account.json"
     
     # Variável de ambiente com credencial GBQ.
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credential_path
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.GCP_CREDENCIAL
     
-    print("======================================================")
-    print("==  Iniciando o pipeline de ETL de produtos ==")
-    print(f"== Credencial sendo usada: {credential_path} ==")
-    print("======================================================")
+    logging.info("======================================================")
+    logging.info("==  Iniciando o pipeline de ETL de produtos ==")
+    logging.info("== Credencial sendo usada ==")
+    logging.info("======================================================")
 
     # Start no pipeline com configuração de credencial GBQ.
     try:
         run_pipeline( project_id=config.GCP_PROJECT_ID, 
                     table_id=config.BIGQUERY_TABLE_ID  )
     except Exception as e:
-        print(f"\nERRO CRÍTICO NO PIPELINE: Ocorreu um erro inesperado: {e}")
+        logging.error(f"\nERRO CRÍTICO NO PIPELINE: Ocorreu um erro inesperado: {e}")
         
 
-    print("\n======================================================")
-    print("==  Pipeline de ETL concluído!              ==")
-    print("== Verifique sua tabela no BigQuery.              ==")
-    print("======================================================")
+    logging.info("\n======================================================")
+    logging.info("==  Pipeline de ETL concluído!              ==")
+    logging.info("== Verifique sua tabela no BigQuery.              ==")
+    logging.info("======================================================")

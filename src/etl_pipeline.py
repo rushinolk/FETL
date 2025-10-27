@@ -2,12 +2,14 @@ import requests
 import pandas as pd
 from datetime import datetime
 from pandas_gbq import to_gbq
+import logging
+import config
 
 # Extract
 
 def extract_products_data():
-    print("Iniciando a extração dos dados")
-    api_url = 'https://fakestoreapi.com/products'
+    logging.info("Iniciando a extração dos dados")
+    api_url = config.FAKESTORE_URL
     try:
         # Faz requisição para pegar na API
         response = requests.get(api_url, timeout=10)
@@ -17,11 +19,11 @@ def extract_products_data():
 
         # Guarda dados 
         raw_data = response.json()
-        print(f"Extração bem sucedida {len(raw_data)} produtos encontrados.")
+        logging.info(f"Extração bem sucedida {len(raw_data)} produtos encontrados.")
         return raw_data
     
     except requests.exceptions.RequestException as e:
-        print(f"Erro ao extrair dados da API {e}")
+        logging.error(f"Erro ao extrair dados da API {e}")
         return None
 
 
@@ -31,10 +33,10 @@ def transform_data(raw_data):
 
     # Tratamento de erro de carregamento de dados pela API
     if raw_data is None:
-        print("Nenhum dado foi encontrado para tratamento")
+        logging.warning("Nenhum dado foi encontrado para tratamento")
         return None
     
-    print("Iniciando transformações dos dados")
+    logging.info("Iniciando transformações dos dados")
     
     # Salvando dados em um dataframe
     df = pd.DataFrame(raw_data)
@@ -69,10 +71,10 @@ def load_data(df_final,project_id, table_id):
 
     # Tratamento de erro de carregamento de dados pela API
     if df_final is None:
-        print("Nenhum dado foi encontrado para tratamento")
+        logging.warning("Nenhum dado foi encontrado para tratamento")
         return None
     
-    print(f'iniciando carregamento de dados para {table_id}')
+    logging.info(f'iniciando carregamento de dados para {table_id}')
     try:
         df_final.to_gbq(
             destination_table=table_id,
@@ -80,7 +82,7 @@ def load_data(df_final,project_id, table_id):
             if_exists='replace'  
         )
     except Exception as e:
-        print(f'Ocorreu um erro inesperado na carga. Detalhes: {e}')
+        logging.error(f'Ocorreu um erro inesperado na carga. Detalhes: {e}')
 
 
 # Start ETL
