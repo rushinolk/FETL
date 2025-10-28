@@ -57,7 +57,7 @@ def transform_data(raw_data):
     })
 
     # Coluna com data e hora da última carga PADRÃO BIGQUERRY
-    df_final['DataHoraCarga'] = datetime.now().strftime('%Y-%m-%d %H-%M-%S')
+    df_final['DataHoraCarga'] = datetime.now()
     
 
     return df_final
@@ -71,13 +71,25 @@ def load_data(df_final,project_id, table_id):
         logging.warning("Nenhum dado foi encontrado para tratamento")
         return None
     
+    schema_do_bigquery = [
+        {'name': 'id_produto', 'type':'INTEGER'},
+        {'name': 'nome_produto', 'type':'STRING'},
+        {'name': 'preco', 'type':'FLOAT'},
+        {'name': 'categoria', 'type':'STRING'},
+        {'name': 'avaliacao', 'type':'FLOAT'},
+        {'name': 'num_avaliacao', 'type':'INTEGER'},
+        {'name': 'DataHoraCarga', 'type':'TIMESTAMP'}
+    ]
+    
     logging.info(f'iniciando carregamento de dados para {table_id}')
     try:
         df_final.to_gbq(
             destination_table=table_id,
             project_id=project_id,
-            if_exists='replace'  
+            if_exists='replace',
+            table_schema=schema_do_bigquery  
         )
+        logging.info("Carga de dados concluida com sucesso.")
     except Exception as e:
         logging.error(f'Ocorreu um erro inesperado na carga. Detalhes: {e}')
 
